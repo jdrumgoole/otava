@@ -1,9 +1,6 @@
 Hunter – Hunts Performance Regressions
 ======================================
 
-_This is an unsupported open source project created by DataStax employees._
-
-
 Hunter performs statistical analysis of performance test results stored
 in CSV files, PostgreSQL, BigQuery, or Graphite database. It finds change-points and notifies about
 possible performance regressions.
