@@ -1,4 +1,4 @@
-# Please place this file in `~/.hunter/hunter.yaml` and provide the missing config values:
+# Please place this file in `~/.otava/otava.yaml` and provide the missing config values:
 fallout:
   url: https://fallout.sjc.dsinternal.org/
   user: FALLOUT_USER

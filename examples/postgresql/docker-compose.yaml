@@ -13,13 +13,13 @@ services:
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
     networks:
-      - hunter-postgres
+      - otava-postgres
 
-  hunter:
+  otava:
     build:
       context: ../..
       dockerfile: Dockerfile
-    container_name: hunter
+    container_name: otava
     depends_on:
       - postgres
     environment:
@@ -28,11 +28,11 @@ services:
       POSTGRES_USERNAME: exampleuser
       POSTGRES_PASSWORD: examplepassword
       POSTGRES_DATABASE: benchmark_results
-      HUNTER_CONFIG: examples/postgresql/hunter.yaml
+      OTAVA_CONFIG: examples/postgresql/otava.yaml
       BRANCH: trunk
     networks:
-      - hunter-postgres
+      - otava-postgres
 
 networks:
-  hunter-postgres:
+  otava-postgres:
     driver: bridge

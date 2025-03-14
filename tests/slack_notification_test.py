@@ -4,9 +4,9 @@ from typing import Dict, List
 
 from dateutil import tz
 
-from hunter.data_selector import DataSelector
-from hunter.series import Metric, Series
-from hunter.slack import NotificationError, SlackNotifier
+from otava.data_selector import DataSelector
+from otava.series import Metric, Series
+from otava.slack import NotificationError, SlackNotifier
 
 NOTIFICATION_CHANNELS = ["a-channel", "b-channel"]
 

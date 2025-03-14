@@ -4,8 +4,8 @@ from typing import Dict
 
 import pg8000
 
-from hunter.analysis import ChangePoint
-from hunter.test_config import PostgresTestConfig
+from otava.analysis import ChangePoint
+from otava.test_config import PostgresTestConfig
 
 
 @dataclass

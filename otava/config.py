@@ -6,13 +6,13 @@ from typing import Dict, List, Optional
 from expandvars import expandvars
 from ruamel.yaml import YAML
 
-from hunter.bigquery import BigQueryConfig
-from hunter.grafana import GrafanaConfig
-from hunter.graphite import GraphiteConfig
-from hunter.postgres import PostgresConfig
-from hunter.slack import SlackConfig
-from hunter.test_config import TestConfig, create_test_config
-from hunter.util import merge_dict_list
+from otava.bigquery import BigQueryConfig
+from otava.grafana import GrafanaConfig
+from otava.graphite import GraphiteConfig
+from otava.postgres import PostgresConfig
+from otava.slack import SlackConfig
+from otava.test_config import TestConfig, create_test_config
+from otava.util import merge_dict_list
 
 
 @dataclass
@@ -168,18 +168,18 @@ def load_config_from(config_file: Path) -> Config:
 def load_config() -> Config:
     """Loads config from one of the default locations"""
 
-    env_config_path = os.environ.get("HUNTER_CONFIG")
+    env_config_path = os.environ.get("OTAVA_CONFIG")
     if env_config_path:
         return load_config_from(Path(env_config_path).absolute())
 
     paths = [
-        Path().home() / ".hunter/hunter.yaml",
-        Path().home() / ".hunter/conf.yaml",
-        Path(os.path.realpath(__file__)).parent / "resources/hunter.yaml",
+        Path().home() / ".otava/otava.yaml",
+        Path().home() / ".otava/conf.yaml",
+        Path(os.path.realpath(__file__)).parent / "resources/otava.yaml",
     ]
 
     for p in paths:
         if p.exists():
             return load_config_from(p)
 
-    raise ConfigError(f"No configuration file found. Checked $HUNTER_CONFIG and searched: {paths}")
+    raise ConfigError(f"No configuration file found. Checked $OTAVA_CONFIG and searched: {paths}")

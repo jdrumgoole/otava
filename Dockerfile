@@ -3,12 +3,12 @@ FROM python:3.8.0-slim-buster
 ENV PYTHONUNBUFFERED="1"
 
 # We create the default user and group to run unprivileged
-ENV HUNTER_HOME /srv/hunter
-WORKDIR ${HUNTER_HOME}
+ENV OTAVA_HOME /srv/otava
+WORKDIR ${OTAVA_HOME}
 
-RUN groupadd --gid 8192 hunter && \
-    useradd --uid 8192 --shell /bin/false --create-home --no-log-init --gid hunter hunter && \
-    chown hunter:hunter ${HUNTER_HOME}
+RUN groupadd --gid 8192 otava && \
+    useradd --uid 8192 --shell /bin/false --create-home --no-log-init --gid otava otava && \
+    chown otava:otava ${OTAVA_HOME}
 
 # First let's just get things updated.
 # Install System dependencies
@@ -30,13 +30,13 @@ RUN curl -sSL https://install.python-poetry.org | python3 - --version 1.1.13
 ENV PATH="/root/.local/bin/:$PATH"
 
 # Copy the rest of the program over
-COPY --chown=hunter:hunter . ${HUNTER_HOME}
+COPY --chown=otava:otava . ${OTAVA_HOME}
 
-ENV PATH="${HUNTER_HOME}/bin:$PATH"
+ENV PATH="${OTAVA_HOME}/bin:$PATH"
 
 RUN  --mount=type=ssh \
     virtualenv --python python3.8 venv && \
     . venv/bin/activate && \
     poetry install -v && \
     mkdir -p bin && \
-    ln -s ../venv/bin/hunter ${HUNTER_HOME}/bin
+    ln -s ../venv/bin/otava ${OTAVA_HOME}/bin

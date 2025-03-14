@@ -5,8 +5,8 @@ from typing import Dict
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
-from hunter.analysis import ChangePoint
-from hunter.test_config import BigQueryTestConfig
+from otava.analysis import ChangePoint
+from otava.test_config import BigQueryTestConfig
 
 
 @dataclass

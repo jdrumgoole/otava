@@ -4,8 +4,8 @@ from typing import List
 
 from tabulate import tabulate
 
-from hunter.series import ChangePointGroup, Series
-from hunter.util import format_timestamp, insert_multiple, remove_common_prefix
+from otava.series import ChangePointGroup, Series
+from otava.util import format_timestamp, insert_multiple, remove_common_prefix
 
 
 @unique
@@ -38,9 +38,9 @@ class Report:
         elif report_type == ReportType.REGRESSIONS_ONLY:
             return self.__format_regressions_only(test_name)
         else:
-            from hunter.main import HunterError
+            from otava.main import OtavaError
 
-            raise HunterError(f"Unknown report type: {report_type}")
+            raise OtavaError(f"Unknown report type: {report_type}")
 
     def __format_log(self) -> str:
         time_column = [format_timestamp(ts) for ts in self.__series.time]

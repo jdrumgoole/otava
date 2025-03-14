@@ -6,8 +6,8 @@ from datetime import datetime
 from logging import info
 from typing import Dict, Iterable, List, Optional
 
-from hunter.data_selector import DataSelector
-from hunter.util import parse_datetime
+from otava.data_selector import DataSelector
+from otava.util import parse_datetime
 
 
 @dataclass

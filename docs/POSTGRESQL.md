@@ -1,7 +1,7 @@
 # Importing results from PostgreSQL
 
 > [!TIP]
-> See [hunter.yaml](../examples/postgresql/hunter.yaml) for the full example configuration.
+> See [otava.yaml](../examples/postgresql/otava.yaml) for the full example configuration.
 
 ## PostgreSQL Connection
 The following block contains PostgreSQL connection details:
@@ -15,7 +15,7 @@ postgres:
   database: ...
 ```
 
-These variables can be specified directly in `hunter.yaml` or passed as environment variables:
+These variables can be specified directly in `otava.yaml` or passed as environment variables:
 
 ```yaml
 postgres:
@@ -77,10 +77,10 @@ Start docker-compose with PostgreSQL in one tab:
 docker-compose -f examples/postgresql/docker-compose.yaml up --force-recreate --always-recreate-deps --renew-anon-volumes
 ````
 
-Run Hunter in the other tab to show results for a single test `aggregate_mem` and update the database with newly found change points:
+Run Otava in the other tab to show results for a single test `aggregate_mem` and update the database with newly found change points:
 
 ```bash
-docker-compose -f examples/postgresql/docker-compose.yaml run --build hunter bin/hunter analyze aggregate_mem --update-postgres
+docker-compose -f examples/postgresql/docker-compose.yaml run --build otava bin/otava analyze aggregate_mem --update-postgres
 ```
 
 Expected output:
@@ -101,7 +101,7 @@ time                       experiment_id       commit      process_cumulative_ra
 
 ### Configuration
 
-See [hunter.yaml](../examples/postgresql/hunter.yaml) for the example configuration:
+See [otava.yaml](../examples/postgresql/otava.yaml) for the example configuration:
 * Block `postgres` contains connection details to the PostgreSQL database.
 * Block `templates` contains common pieces of configuration used by all tests - time column and a list of attributes and metrics.
 * Block `tests` contains configuration for the individual tests, specifically a query that fetches analyzed columns sorted by commit timestamp.
@@ -110,8 +110,8 @@ See [hunter.yaml](../examples/postgresql/hunter.yaml) for the example configurat
 
 [docker-compose.yaml](../examples/postgresql/docker-compose.yaml) contains example config required to connect to PosgreSQL:
 1. `POSTGRES_*` environment variables are used to pass connection details to the container.
-2. `HUNTER_CONFIG` is the path to the configuration file described above.
-3. `BRANCH` variable is used within `HUNTER_CONFIG` to analyze experiment results only for a specific branch.
+2. `OTAVA_CONFIG` is the path to the configuration file described above.
+3. `BRANCH` variable is used within `OTAVA_CONFIG` to analyze experiment results only for a specific branch.
 
 
 ### CLI arguments

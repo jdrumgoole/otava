@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from hunter.report import Report, ReportType
-from hunter.series import Metric, Series
+from otava.report import Report, ReportType
+from otava.series import Metric, Series
 
 
 @pytest.fixture(scope="module")

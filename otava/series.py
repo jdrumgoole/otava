@@ -6,7 +6,7 @@ from typing import Any, Dict, Iterable, List, Optional
 
 import numpy as np
 
-from hunter.analysis import (
+from otava.analysis import (
     ComparativeStats,
     TTestSignificanceTester,
     compute_change_points,

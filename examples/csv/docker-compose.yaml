@@ -1,11 +1,11 @@
 services:
-  hunter:
+  otava:
     build:
       context: ../..
       dockerfile: Dockerfile
-    container_name: hunter
+    container_name: otava
     environment:
-      HUNTER_CONFIG: examples/csv/hunter.yaml
+      OTAVA_CONFIG: examples/csv/otava.yaml
     volumes:
       - ./tests:/tests
 

@@ -25,7 +25,7 @@ send_to_graphite() {
     # send the metric
     echo "${throughput_path} ${value} ${timestamp}" | nc ${GRAPHITE_SERVER} ${GRAPHITE_PORT}
     # annotate the metric
-    # Commented out, waiting for https://github.com/datastax-labs/hunter/issues/24 to be fixed
+    # Commented out, waiting for https://github.com/apache/otava/issues/24 to be fixed
     #    curl -X POST "http://${GRAPHITE_SERVER}/events/" \
     #        -d "{
     #          \"what\": \"Performance Test\",

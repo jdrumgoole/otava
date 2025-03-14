@@ -1,7 +1,7 @@
 import numpy as np
 from signal_processing_algorithms.e_divisive.change_points import EDivisiveChangePoint
 
-from hunter.analysis import TTestSignificanceTester, compute_change_points, fill_missing
+from otava.analysis import TTestSignificanceTester, compute_change_points, fill_missing
 
 
 def test_fill_missing():

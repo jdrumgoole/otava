@@ -2,15 +2,15 @@ from datetime import datetime
 
 import pytz
 
-from hunter.csv_options import CsvOptions
-from hunter.graphite import DataSelector
-from hunter.importer import (
+from otava.csv_options import CsvOptions
+from otava.graphite import DataSelector
+from otava.importer import (
     BigQueryImporter,
     CsvImporter,
     HistoStatImporter,
     PostgresImporter,
 )
-from hunter.test_config import (
+from otava.test_config import (
     BigQueryMetric,
     BigQueryTestConfig,
     CsvMetric,

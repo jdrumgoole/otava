@@ -7,13 +7,13 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from hunter.bigquery import BigQuery
-from hunter.config import Config
-from hunter.data_selector import DataSelector
-from hunter.graphite import DataPoint, Graphite, GraphiteError
-from hunter.postgres import Postgres
-from hunter.series import Metric, Series
-from hunter.test_config import (
+from otava.bigquery import BigQuery
+from otava.config import Config
+from otava.data_selector import DataSelector
+from otava.graphite import DataPoint, Graphite, GraphiteError
+from otava.postgres import Postgres
+from otava.series import Metric, Series
+from otava.test_config import (
     BigQueryMetric,
     BigQueryTestConfig,
     CsvMetric,
@@ -25,7 +25,7 @@ from hunter.test_config import (
     PostgresTestConfig,
     TestConfig,
 )
-from hunter.util import (
+from otava.util import (
     DateFormatError,
     format_timestamp,
     merge_sorted,

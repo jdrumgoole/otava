@@ -1,7 +1,7 @@
 # Importing results from Graphite
 
 > [!TIP]
-> See [hunter.yaml](../examples/graphite/hunter.yaml) for the full example configuration.
+> See [otava.yaml](../examples/graphite/otava.yaml) for the full example configuration.
 
 ## Graphite and Grafana Connection
 
@@ -17,7 +17,7 @@ grafana:
   password: ...
 ```
 
-These variables can be specified directly in `hunter.yaml` or passed as environment variables:
+These variables can be specified directly in `otava.yaml` or passed as environment variables:
 
 ```yaml
 graphite:
@@ -56,7 +56,7 @@ tests:
 ### Tags
 
 > [!WARNING]
-> Tags do not work as expected in the current version. See https://github.com/datastax-labs/hunter/issues/24 for more details
+> Tags do not work as expected in the current version. See https://github.com/datastax-labs/otava/issues/24 for more details
 
 The optional `tags` property contains the tags that are used to query for Graphite events that store
 additional test run metadata such as run identifier, commit, branch and product version information.
@@ -72,7 +72,7 @@ $ curl -X POST "http://graphite_address/events/" \
     }'
 ```
 
-Posting those events is not mandatory, but when they are available, Hunter is able to
+Posting those events is not mandatory, but when they are available, Otava is able to
 filter data by commit or version using `--since-commit` or `--since-version` selectors.
 
 ## Example
@@ -83,10 +83,10 @@ Start docker-compose with Graphite in one tab:
 docker-compose -f examples/graphite/docker-compose.yaml up --force-recreate --always-recreate-deps --renew-anon-volumes --build
 ````
 
-Run hunter in another tab:
+Run otava in another tab:
 
 ```bash
-docker-compose -f examples/graphite/docker-compose.yaml run hunter hunter analyze my-product.test --since=-10m
+docker-compose -f examples/graphite/docker-compose.yaml run otava otava analyze my-product.test --since=-10m
 ```
 
 Expected output:

@@ -1,4 +1,4 @@
-from hunter.graphite import compress_target_paths
+from otava.graphite import compress_target_paths
 
 
 def test_compress_target_paths():

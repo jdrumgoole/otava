@@ -2,8 +2,8 @@ import os.path
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
-from hunter.csv_options import CsvOptions
-from hunter.util import interpolate
+from otava.csv_options import CsvOptions
+from otava.util import interpolate
 
 
 @dataclass
@@ -116,7 +116,7 @@ class HistoStatTestConfig(TestConfig):
     file: str
 
     def fully_qualified_metric_names(self):
-        from hunter.importer import HistoStatImporter
+        from otava.importer import HistoStatImporter
 
         return HistoStatImporter().fetch_all_metric_names(self)
 
@@ -195,7 +195,7 @@ class BigQueryTestConfig(TestConfig):
 
 def create_test_config(name: str, config: Dict) -> TestConfig:
     """
-    Loads properties of a test from a dictionary read from hunter's config file
+    Loads properties of a test from a dictionary read from otava's config file
     This dictionary must have the `type` property to determine the type of the test.
     Other properties depend on the type.
     Currently supported test types are `fallout`, `graphite`, `csv`, `json`, and `psql`.
@@ -372,9 +372,9 @@ class JsonTestConfig(TestConfig):
     file: str
     base_branch: str
 
-    # TODO: This should return the list defined in the config file hunter.yaml
+    # TODO: This should return the list defined in the config file otava.yaml
     def fully_qualified_metric_names(self):
-        from hunter.importer import JsonImporter
+        from otava.importer import JsonImporter
 
         metric_names = JsonImporter().fetch_all_metric_names(self)
         return [f"{self.name}.{m}" for m in metric_names]

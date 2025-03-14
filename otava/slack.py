@@ -6,8 +6,8 @@ from typing import Dict, List
 from pytz import UTC
 from slack_sdk import WebClient
 
-from hunter.data_selector import DataSelector
-from hunter.series import AnalyzedSeries, ChangePointGroup
+from otava.data_selector import DataSelector
+from otava.series import AnalyzedSeries, ChangePointGroup
 
 
 @dataclass
@@ -46,7 +46,7 @@ class SlackNotification:
             self.__text_block(
                 "header",
                 "plain_text",
-                "Hunter found insufficient data for the following tests :warning:",
+                "Otava found insufficient data for the following tests :warning:",
             )
         ]
         if self.data_selection_description:
@@ -148,9 +148,9 @@ class SlackNotification:
 
     def __header(self):
         header_text = (
-            "Hunter has detected change points"
+            "Otava has detected change points"
             if self.test_analyzed_series
-            else "Hunter did not detect any change points"
+            else "Otava did not detect any change points"
         )
         return self.__text_block("header", "plain_text", header_text)
 

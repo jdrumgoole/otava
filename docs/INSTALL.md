@@ -2,12 +2,12 @@
 
 ## Install using pipx
 
-Hunter requires Python 3.8.  If you don't have python 3.8, use pyenv to install it.
+Otava requires Python 3.8.  If you don't have python 3.8, use pyenv to install it.
 
-Use pipx to install hunter:
+Use pipx to install otava:
 
 ```
-pipx install git+ssh://git@github.com/datastax-labs/hunter
+pipx install git+ssh://git@github.com/datastax-labs/otava
 ```
 
 ## Build Docker container
@@ -15,5 +15,5 @@ pipx install git+ssh://git@github.com/datastax-labs/hunter
 To build the Docker container, run the following command:
 
 ```bash
-docker build -t hunter .
+docker build -t otava .
 ```

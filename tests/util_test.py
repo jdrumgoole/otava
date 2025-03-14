@@ -1,4 +1,4 @@
-from hunter.util import (
+from otava.util import (
     insert_multiple,
     interpolate,
     merge_dict_list,

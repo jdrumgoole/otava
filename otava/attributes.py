@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Dict
 
-from hunter.util import format_timestamp
+from otava.util import format_timestamp
 
 
 def form_hyperlink_html_str(display_text: str, url: str) -> str:
@@ -10,7 +10,7 @@ def form_hyperlink_html_str(display_text: str, url: str) -> str:
 
 def form_created_msg_html_str() -> str:
     formatted_time = format_timestamp(int(datetime.now().timestamp()), False)
-    return f"<p><i><sub>Created by Hunter: {formatted_time}</sub></i></p>"
+    return f"<p><i><sub>Created by Otava: {formatted_time}</sub></i></p>"
 
 
 def get_back_links(attributes: Dict[str, str]) -> str:

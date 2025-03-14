@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "hunter"
+name = "otava"
 version = "0.6.0"
 description = ""
 authors = ["Piotr Kołaczkowski <pkolaczk@datastax.com>"]
@@ -38,7 +38,7 @@ filterwarnings = [
 ]
 
 [tool.poetry.scripts]
-hunter = 'hunter.main:main'
+otava = 'otava.main:main'
 
 [tool.ruff]
 line-length = 100

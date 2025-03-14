@@ -1,5 +1,5 @@
 
-from hunter.analysis import compute_change_points
+from otava.analysis import compute_change_points
 
 
 def _get_series():

@@ -269,7 +269,7 @@ def split(series: np.array, window_len: int = 30, max_pvalue: float = 0.001,
         new_indexes.sort()
         last_new_change_point_index = next(iter(new_indexes[-1:]), 0)
         start = max(last_new_change_point_index, start + step)
-        # incremental Hunter can duplicate an old cp
+        # incremental Otava can duplicate an old cp
         for i in new_indexes:
             if i not in indexes:
                 indexes += [i]
