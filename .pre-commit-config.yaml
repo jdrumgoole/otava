@@ -1,0 +1,79 @@
+---
+default_stages: [pre-push]
+default_language_version:
+  python: python3
+repos:
+- repo: https://github.com/Lucas-C/pre-commit-hooks
+  rev: v1.5.5
+  hooks:
+      - id: insert-license
+        name: Add license for all Python files
+        exclude: ^\.github/.*$
+        files: \.py$|\.pyi$
+        args:
+          - --comment-style
+          - "|#|"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all YAML files
+        exclude: ^\.github/.*$
+        types: [yaml]
+        files: \.ya?ml$
+        args:
+          - --comment-style
+          - "|#|"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all Markdown files
+        files: \.md$
+        args:
+          - --comment-style
+          - "<!--|| -->"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all Shell files
+        exclude: ^\.github/.*$
+        files: \.bash$|\.sh$
+        args:
+          - --comment-style
+          - "|#|"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all toml files
+        exclude: ^\.github/.*$
+        files: \.toml$
+        args:
+          - --comment-style
+          - "|#|"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all SQL files
+        files: \.sql$
+        exclude: ^\.github/.*$
+        args:
+          - --comment-style
+          - "/*||*/"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+      - id: insert-license
+        name: Add license for all other files
+        exclude: ^\.github/.*$
+        args:
+          - --comment-style
+          - "|#|"
+          - --license-filepath
+          - ci-tools/license-templates/LICENSE.txt
+          - --fuzzy-match-generates-todo
+        files: >
+          \.ini$|poetryw$|toxw$|Dockerfile.*$

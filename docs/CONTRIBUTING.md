@@ -38,6 +38,20 @@ Code-style is enforced using [ruff](https://docs.astral.sh/ruff/) and [flake8](h
 ./toxw -e format
 ```
 
+# Changing the LICENSE header
+
+To change the license header:
+1. Add the `--remove-header` arg to `.pre-commit-config.yaml`
+2. Run formatting (this will remove the license header entirely)
+```
+./toxw -e format
+```
+3. Remove the `--remove-header` arg from `.pre-commit-config.yaml`
+4. Update `ci-tools/license-templates/LICENSE.txt`
+5. Run formatting
+```
+./toxw -e format
+```
 
 # Build a docker image
 
