@@ -1,9 +1,21 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import time
 from random import random
 
 import pytest
 
-from hunter.series import AnalysisOptions, Metric, Series, compare
+from otava.series import AnalysisOptions, Metric, Series, compare
 
 
 def test_change_point_detection():
@@ -177,7 +189,7 @@ def test_compare_metrics_order():
     assert list(cmp.stats.keys()) == ["m1", "m2", "m3", "m4", "m5"]
 
 
-def test_incremental_hunter():
+def test_incremental_otava():
     series_1 = [1.02, 0.95, 0.99, 1.00, 1.12, 0.90, 0.50, 0.51, 0.48, 0.48, 0.55]
     series_2 = [2.02, 2.03, 2.01, 2.04, 1.82, 1.85, 1.79, 1.81, 1.80, 1.76, 1.78]
     time = list(range(len(series_1)))

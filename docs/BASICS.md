@@ -1,15 +1,29 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
 # Basics
 
 ## Listing Available Tests
 
 ```
-hunter list-groups
+otava list-groups
 ```
 
 Lists all available test groups - high-level categories of tests.
 
 ```
-hunter list-tests [group name]
+otava list-tests [group name]
 ```
 
 Lists all tests or the tests within a given group, if the group name is provided.
@@ -19,16 +33,16 @@ Lists all tests or the tests within a given group, if the group name is provided
 To list all available metrics defined for the test:
 
 ```
-hunter list-metrics <test>
+otava list-metrics <test>
 ```
 
 ### Example
 
 > [!TIP]
-> See [hunter.yaml](../examples/csv/hunter.yaml) for the full example configuration.
+> See [otava.yaml](../examples/csv/otava.yaml) for the full example configuration.
 
 ```
-$ hunter list-metrics local.sample
+$ otava list-metrics local.sample
 metric1
 metric2
 ```
@@ -36,8 +50,8 @@ metric2
 ## Finding Change Points
 
 ```
-hunter analyze <test>...
-hunter analyze <group>...
+otava analyze <test>...
+otava analyze <group>...
 ```
 
 This command prints interesting results of all
@@ -45,10 +59,10 @@ runs of the test and a list of change-points.
 A change-point is a moment when a metric value starts to differ significantly
 from the values of the earlier runs and when the difference
 is persistent and statistically significant that it is unlikely to happen by chance.
-Hunter calculates the probability (P-value) that the change point was caused
+Otava calculates the probability (P-value) that the change point was caused
 by chance - the closer to zero, the more "sure" it is about the regression or
 performance improvement. The smaller is the actual magnitude of the change,
-the more data points are needed to confirm the change, therefore Hunter may
+the more data points are needed to confirm the change, therefore Otava may
 not notice the regression immediately after the first run that regressed.
 However, it will eventually identify the specific commit that caused the regression,
 as it analyzes the history of changes rather than just the HEAD of a branch.
@@ -59,12 +73,12 @@ The results are simply concatenated.
 ### Example
 
 > [!TIP]
-> See [hunter.yaml](../examples/csv/hunter.yaml) for the full
+> See [otava.yaml](../examples/csv/otava.yaml) for the full
 > example configuration and [local_samples.csv](../examples/csv/data/local_samples.csv)
 > for the data.
 
 ```
-$ hunter analyze local.sample --since=2024-01-01
+$ otava analyze local.sample --since=2024-01-01
 INFO: Computing change points for test sample.csv...
 sample:
 time                         metric1    metric2
@@ -87,7 +101,7 @@ time                         metric1    metric2
 ## Avoiding test definition duplication
 
 You may find that your test definitions are very similar to each other,  e.g. they all have the same metrics. Instead
-of copy-pasting the definitions  you can use templating capability built-in hunter to define the common bits of configs
+of copy-pasting the definitions  you can use templating capability built-in otava to define the common bits of configs
 separately.
 
 First, extract the common pieces to the `templates` section:
@@ -123,9 +137,9 @@ You can inherit more than one template.
 
 ## Validating Performance of a Feature Branch
 
-The `hunter regressions` command can work with feature branches.
+The `otava regressions` command can work with feature branches.
 
-First you need to tell Hunter how to fetch the data of the tests run against a feature branch.
+First you need to tell Otava how to fetch the data of the tests run against a feature branch.
 The `prefix` property of the graphite test definition accepts `%{BRANCH}` variable,
 which is substituted at the data import time by the branch name passed to `--branch`
 command argument. Alternatively, if the prefix for the main branch of your product is different
@@ -147,17 +161,17 @@ my-product.test-2:
 ```
 
 Now you can verify if correct data are imported by running
-`hunter analyze <test> --branch <branch>`.
+`otava analyze <test> --branch <branch>`.
 
-The `--branch` argument also works with `hunter regressions`. In this case a comparison will be made
+The `--branch` argument also works with `otava regressions`. In this case a comparison will be made
 between the tail of the specified branch and the tail of the main branch (or a point of the
 main branch specified by one of the `--since` selectors).
 
 ```
-$ hunter regressions <test or group> --branch <branch>
-$ hunter regressions <test or group> --branch <branch> --since <date>
-$ hunter regressions <test or group> --branch <branch> --since-version <version>
-$ hunter regressions <test or group> --branch <branch> --since-commit <commit>
+$ otava regressions <test or group> --branch <branch>
+$ otava regressions <test or group> --branch <branch> --since <date>
+$ otava regressions <test or group> --branch <branch> --since-version <version>
+$ otava regressions <test or group> --branch <branch> --since-commit <commit>
 ```
 
 Sometimes when working on a feature branch, you may run the tests multiple times,
@@ -167,11 +181,11 @@ use the `--last <n>` selector. E.g. to check regressions on the last run of the 
 on the feature branch:
 
 ```
-$ hunter regressions <test or group> --branch <branch> --last 1
+$ otava regressions <test or group> --branch <branch> --last 1
 ```
 
 Please beware that performance validation based on a single data point is quite weak
-and Hunter might miss a regression if the point is not too much different from
+and Otava might miss a regression if the point is not too much different from
 the baseline. However, accuracy improves as more data points accumulate, and it is
-a normal way of using Hunter to just merge a feature and then revert if it is
+a normal way of using Otava to just merge a feature and then revert if it is
 flagged later.

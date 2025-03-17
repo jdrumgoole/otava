@@ -1,3 +1,15 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from dataclasses import dataclass
 from datetime import datetime
 from math import isinf
@@ -6,8 +18,8 @@ from typing import Dict, List
 from pytz import UTC
 from slack_sdk import WebClient
 
-from hunter.data_selector import DataSelector
-from hunter.series import AnalyzedSeries, ChangePointGroup
+from otava.data_selector import DataSelector
+from otava.series import AnalyzedSeries, ChangePointGroup
 
 
 @dataclass
@@ -46,7 +58,7 @@ class SlackNotification:
             self.__text_block(
                 "header",
                 "plain_text",
-                "Hunter found insufficient data for the following tests :warning:",
+                "Otava found insufficient data for the following tests :warning:",
             )
         ]
         if self.data_selection_description:
@@ -148,9 +160,9 @@ class SlackNotification:
 
     def __header(self):
         header_text = (
-            "Hunter has detected change points"
+            "Otava has detected change points"
             if self.test_analyzed_series
-            else "Hunter did not detect any change points"
+            else "Otava did not detect any change points"
         )
         return self.__text_block("header", "plain_text", header_text)
 

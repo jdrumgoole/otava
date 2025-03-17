@@ -1,7 +1,19 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from datetime import datetime
 from typing import Dict
 
-from hunter.util import format_timestamp
+from otava.util import format_timestamp
 
 
 def form_hyperlink_html_str(display_text: str, url: str) -> str:
@@ -10,7 +22,7 @@ def form_hyperlink_html_str(display_text: str, url: str) -> str:
 
 def form_created_msg_html_str() -> str:
     formatted_time = format_timestamp(int(datetime.now().timestamp()), False)
-    return f"<p><i><sub>Created by Hunter: {formatted_time}</sub></i></p>"
+    return f"<p><i><sub>Created by Otava: {formatted_time}</sub></i></p>"
 
 
 def get_back_links(attributes: Dict[str, str]) -> str:

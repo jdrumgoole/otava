@@ -1,11 +1,23 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from collections import OrderedDict
 from enum import Enum, unique
 from typing import List
 
 from tabulate import tabulate
 
-from hunter.series import ChangePointGroup, Series
-from hunter.util import format_timestamp, insert_multiple, remove_common_prefix
+from otava.series import ChangePointGroup, Series
+from otava.util import format_timestamp, insert_multiple, remove_common_prefix
 
 
 @unique
@@ -38,9 +50,9 @@ class Report:
         elif report_type == ReportType.REGRESSIONS_ONLY:
             return self.__format_regressions_only(test_name)
         else:
-            from hunter.main import HunterError
+            from otava.main import OtavaError
 
-            raise HunterError(f"Unknown report type: {report_type}")
+            raise OtavaError(f"Unknown report type: {report_type}")
 
     def __format_log(self) -> str:
         time_column = [format_timestamp(ts) for ts in self.__series.time]

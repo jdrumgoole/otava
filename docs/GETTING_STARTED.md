@@ -1,19 +1,33 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
 # Getting Started
 
 ## Installation
 
-Hunter requires Python 3.8.  If you don't have python 3.8,
+Otava requires Python 3.8.  If you don't have python 3.8,
 use pyenv to install it.
 
-Use pipx to install hunter:
+Use pipx to install otava:
 
 ```
-pipx install git+ssh://git@github.com/apache/hunter
+pipx install git+ssh://git@github.com/apache/otava
 ```
 
 ## Setup
 
-Copy the main configuration file `resources/hunter.yaml` to `~/.hunter/hunter.yaml` and adjust data source configuration.
+Copy the main configuration file `resources/otava.yaml` to `~/.otava/otava.yaml` and adjust data source configuration.
 
 > [!TIP]
 > See docs on specific data sources to learn more about their configuration - [CSV](CSV.md), [Graphite](GRAPHITE.md),
@@ -26,7 +40,7 @@ Environment variables are interpolated before interpreting the configuration fil
 ## Defining tests
 
 All test configurations are defined in the main configuration file.
-Hunter supports reading data from and publishing results to a CSV file, [Graphite](https://graphiteapp.org/),
+Otava supports reading data from and publishing results to a CSV file, [Graphite](https://graphiteapp.org/),
 [PostgreSQL](https://www.postgresql.org/), and [BigQuery](https://cloud.google.com/bigquery).
 
 Tests are defined in the `tests` section. For example, the following definition will import results of the test from a CSV file:
@@ -70,15 +84,15 @@ report. Special attribute `version` and `commit` can be used to query for a give
 ## Listing Available Tests
 
 ```
-hunter list-groups
-hunter list-tests [group name]
+otava list-groups
+otava list-tests [group name]
 ```
 
 ## Listing Available Metrics for Tests
 
 To list all available metrics defined for the test:
 ```
-hunter list-metrics <test>
+otava list-metrics <test>
 ```
 
 ## Finding Change Points
@@ -88,8 +102,8 @@ hunter list-metrics <test>
 > [Validating Performance of a Feature Branch](BASICS.md#validating-performance-of-a-feature-branch).
 
 ```
-hunter analyze <test>...
-hunter analyze <group>...
+otava analyze <test>...
+otava analyze <group>...
 ```
 
 This command prints interesting results of all runs of the test and a list of change-points.
@@ -97,9 +111,9 @@ This command prints interesting results of all runs of the test and a list of ch
 A change-point is a moment when a metric value starts to differ significantly from the values of the earlier runs and
 when the difference is statistically significant.
 
-Hunter calculates the probability (P-value) that the change point was caused by chance - the closer to zero, the more
+Otava calculates the probability (P-value) that the change point was caused by chance - the closer to zero, the more
 "sure" it is about the regression or performance improvement. The smaller is the actual magnitude of the change, the
-more data points are needed to confirm the change, therefore Hunter may not notice the regression immediately after the first run
+more data points are needed to confirm the change, therefore Otava may not notice the regression immediately after the first run
 that regressed.
 
 The `analyze` command accepts multiple tests or test groups.
@@ -108,7 +122,7 @@ The results are simply concatenated.
 ## Example
 
 ```
-$ hunter analyze local.sample
+$ otava analyze local.sample
 INFO: Computing change points for test sample.csv...
 sample:
 time                         metric1    metric2

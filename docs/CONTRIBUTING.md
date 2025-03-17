@@ -1,3 +1,17 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
+
 # Setting up for development
 
 * Ensure that `python3` points to a version of python >= 3.8 (`python3 --version` will tell you).  If it does not, use [pyenv](https://github.com/pyenv/pyenv) to both install a recent python version and make it your current python.
@@ -10,10 +24,10 @@
 ./poetryw install
 ```
 
-* Run the development version of hunter using poetry:
+* Run the development version of otava using poetry:
 
 ```
-./poetryw run hunter ...
+./poetryw run otava ...
 ```
 
 See the [poetry docs](https://python-poetry.org/docs) for more.
@@ -38,6 +52,20 @@ Code-style is enforced using [ruff](https://docs.astral.sh/ruff/) and [flake8](h
 ./toxw -e format
 ```
 
+# Changing the LICENSE header
+
+To change the license header:
+1. Add the `--remove-header` arg to `.pre-commit-config.yaml`
+2. Run formatting (this will remove the license header entirely)
+```
+./toxw -e format
+```
+3. Remove the `--remove-header` arg from `.pre-commit-config.yaml`
+4. Update `ci-tools/license-templates/LICENSE.txt`
+5. Run formatting
+```
+./toxw -e format
+```
 
 # Build a docker image
 

@@ -1,3 +1,15 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import argparse
 import copy
 import logging
@@ -9,34 +21,34 @@ from typing import Dict, List, Optional
 import pytz
 from slack_sdk import WebClient
 
-from hunter import config
-from hunter.attributes import get_back_links
-from hunter.bigquery import BigQuery, BigQueryError
-from hunter.config import Config, ConfigError
-from hunter.data_selector import DataSelector
-from hunter.grafana import Annotation, Grafana, GrafanaError
-from hunter.graphite import GraphiteError
-from hunter.importer import DataImportError, Importers
-from hunter.postgres import Postgres, PostgresError
-from hunter.report import Report, ReportType
-from hunter.series import AnalysisOptions, AnalyzedSeries, compare
-from hunter.slack import NotificationError, SlackNotifier
-from hunter.test_config import (
+from otava import config
+from otava.attributes import get_back_links
+from otava.bigquery import BigQuery, BigQueryError
+from otava.config import Config, ConfigError
+from otava.data_selector import DataSelector
+from otava.grafana import Annotation, Grafana, GrafanaError
+from otava.graphite import GraphiteError
+from otava.importer import DataImportError, Importers
+from otava.postgres import Postgres, PostgresError
+from otava.report import Report, ReportType
+from otava.series import AnalysisOptions, AnalyzedSeries, compare
+from otava.slack import NotificationError, SlackNotifier
+from otava.test_config import (
     BigQueryTestConfig,
     GraphiteTestConfig,
     PostgresTestConfig,
     TestConfig,
     TestConfigError,
 )
-from hunter.util import DateFormatError, interpolate, parse_datetime
+from otava.util import DateFormatError, interpolate, parse_datetime
 
 
 @dataclass
-class HunterError(Exception):
+class OtavaError(Exception):
     message: str
 
 
-class Hunter:
+class Otava:
     __conf: Config
     __importers: Importers
     __grafana: Optional[Grafana]
@@ -58,7 +70,7 @@ class Hunter:
             for group_name in group_names:
                 group = self.__conf.test_groups.get(group_name)
                 if group is None:
-                    raise HunterError(f"Test group not found: {group_name}")
+                    raise OtavaError(f"Test group not found: {group_name}")
                 test_names += (t.name for t in group)
         else:
             test_names = self.__conf.tests
@@ -73,7 +85,7 @@ class Hunter:
     def get_test(self, test_name: str) -> TestConfig:
         test = self.__conf.tests.get(test_name)
         if test is None:
-            raise HunterError(f"Test not found {test_name}")
+            raise OtavaError(f"Test not found {test_name}")
         return test
 
     def get_tests(self, *names: str) -> List[TestConfig]:
@@ -87,7 +99,7 @@ class Hunter:
                 if test is not None:
                     tests.append(test)
                 else:
-                    raise HunterError(f"Test or group not found: {name}")
+                    raise OtavaError(f"Test or group not found: {name}")
         return tests
 
     def list_metrics(self, test: TestConfig):
@@ -122,7 +134,7 @@ class Hunter:
         end = datetime.fromtimestamp(series.time()[len(series.time()) - 1], tz=pytz.UTC)
 
         logging.info(f"Fetching Grafana annotations for test {test.name}...")
-        tags_to_query = ["hunter", "change-point", "test:" + test.name]
+        tags_to_query = ["otava", "change-point", "test:" + test.name]
         old_annotations_for_test = grafana.fetch_annotations(begin, end, list(tags_to_query))
         logging.info(f"Found {len(old_annotations_for_test)} annotations")
 
@@ -192,13 +204,13 @@ class Hunter:
             logging.info(f"Created {created_count} annotations.")
 
     def remove_grafana_annotations(self, test: Optional[TestConfig], force: bool):
-        """Removes all Hunter annotations (optionally for a given test) in Grafana"""
+        """Removes all Otava annotations (optionally for a given test) in Grafana"""
         grafana = self.__get_grafana()
         if test:
             logging.info(f"Fetching Grafana annotations for test {test.name}...")
         else:
             logging.info("Fetching Grafana annotations...")
-        tags_to_query = {"hunter", "change-point"}
+        tags_to_query = {"otava", "change-point"}
         if test:
             tags_to_query.add(f"test: {test.name}")
         annotations = grafana.fetch_annotations(None, None, list(tags_to_query))
@@ -265,12 +277,12 @@ class Hunter:
         if since_version:
             baseline_index = baseline_series.find_by_attribute("version", since_version)
             if not baseline_index:
-                raise HunterError(f"No runs of test {test.name} with version {since_version}")
+                raise OtavaError(f"No runs of test {test.name} with version {since_version}")
             baseline_index = max(baseline_index)
         elif since_commit:
             baseline_index = baseline_series.find_by_attribute("commit", since_commit)
             if not baseline_index:
-                raise HunterError(f"No runs of test {test.name} with commit {since_commit}")
+                raise OtavaError(f"No runs of test {test.name} with commit {since_commit}")
             baseline_index = max(baseline_index)
         else:
             baseline_index = baseline_series.find_first_not_earlier_than(since_time)
@@ -586,18 +598,18 @@ def script_main(conf: Config, args: List[str] = None):
 
     try:
         args = parser.parse_args(args=args)
-        hunter = Hunter(conf)
+        otava = Otava(conf)
 
         if args.command == "list-groups":
-            hunter.list_test_groups()
+            otava.list_test_groups()
 
         if args.command == "list-tests":
             group_names = args.group if args.group else None
-            hunter.list_tests(group_names)
+            otava.list_tests(group_names)
 
         if args.command == "list-metrics":
-            test = hunter.get_test(args.test)
-            hunter.list_metrics(test)
+            test = otava.get_test(args.test)
+            otava.list_metrics(test)
 
         if args.command == "analyze":
             update_grafana_flag = args.update_grafana
@@ -608,25 +620,25 @@ def script_main(conf: Config, args: List[str] = None):
             data_selector = data_selector_from_args(args)
             options = analysis_options_from_args(args)
             report_type = args.report_type
-            tests = hunter.get_tests(*args.tests)
+            tests = otava.get_tests(*args.tests)
             tests_analyzed_series = {test.name: None for test in tests}
             for test in tests:
                 try:
-                    analyzed_series = hunter.analyze(
+                    analyzed_series = otava.analyze(
                         test, selector=data_selector, options=options, report_type=report_type
                     )
                     if update_grafana_flag:
                         if not isinstance(test, GraphiteTestConfig):
                             raise GrafanaError("Not a Graphite test")
-                        hunter.update_grafana_annotations(test, analyzed_series)
+                        otava.update_grafana_annotations(test, analyzed_series)
                     if update_postgres_flag:
                         if not isinstance(test, PostgresTestConfig):
                             raise PostgresError("Not a Postgres test")
-                        hunter.update_postgres(test, analyzed_series)
+                        otava.update_postgres(test, analyzed_series)
                     if update_bigquery_flag:
                         if not isinstance(test, BigQueryTestConfig):
                             raise BigQueryError("Not a BigQuery test")
-                        hunter.update_bigquery(test, analyzed_series)
+                        otava.update_bigquery(test, analyzed_series)
                     if slack_notification_channels:
                         tests_analyzed_series[test.name] = analyzed_series
                 except DataImportError as err:
@@ -640,7 +652,7 @@ def script_main(conf: Config, args: List[str] = None):
                         f"Failed to update postgres database for {test.name}: {err.message}"
                     )
             if slack_notification_channels:
-                hunter.notify_slack(
+                otava.notify_slack(
                     tests_analyzed_series,
                     selector=data_selector,
                     channels=slack_notification_channels,
@@ -650,15 +662,15 @@ def script_main(conf: Config, args: List[str] = None):
         if args.command == "regressions":
             data_selector = data_selector_from_args(args)
             options = analysis_options_from_args(args)
-            tests = hunter.get_tests(*args.tests)
+            tests = otava.get_tests(*args.tests)
             regressing_test_count = 0
             errors = 0
             for test in tests:
                 try:
-                    regressions = hunter.regressions(test, selector=data_selector, options=options)
+                    regressions = otava.regressions(test, selector=data_selector, options=options)
                     if regressions:
                         regressing_test_count += 1
-                except HunterError as err:
+                except OtavaError as err:
                     logging.error(err.message)
                     errors += 1
                 except DataImportError as err:
@@ -675,14 +687,14 @@ def script_main(conf: Config, args: List[str] = None):
 
         if args.command == "remove-annotations":
             if args.tests:
-                tests = hunter.get_tests(*args.tests)
+                tests = otava.get_tests(*args.tests)
                 for test in tests:
-                    hunter.remove_grafana_annotations(test, args.force)
+                    otava.remove_grafana_annotations(test, args.force)
             else:
-                hunter.remove_grafana_annotations(None, args.force)
+                otava.remove_grafana_annotations(None, args.force)
 
         if args.command == "validate":
-            hunter.validate()
+            otava.validate()
 
         if args.command is None:
             parser.print_usage()
@@ -699,7 +711,7 @@ def script_main(conf: Config, args: List[str] = None):
     except DataImportError as err:
         logging.error(err.message)
         exit(1)
-    except HunterError as err:
+    except OtavaError as err:
         logging.error(err.message)
         exit(1)
     except DateFormatError as err:
