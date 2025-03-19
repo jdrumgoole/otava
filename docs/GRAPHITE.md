@@ -70,7 +70,7 @@ tests:
 ### Tags
 
 > [!WARNING]
-> Tags do not work as expected in the current version. See https://github.com/datastax-labs/otava/issues/24 for more details
+> Tags do not work as expected in the current version. See https://github.com/apache/otava/issues/24 for more details
 
 The optional `tags` property contains the tags that are used to query for Graphite events that store
 additional test run metadata such as run identifier, commit, branch and product version information.
