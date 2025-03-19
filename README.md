@@ -1,5 +1,5 @@
-Otava – Hunts Performance Regressions
-======================================
+Otava – Change Detection for Continuous Performance Engineering
+===============================================================
 
 Otava performs statistical analysis of performance test results stored
 in CSV files, PostgreSQL, BigQuery, or Graphite database. It finds change-points and notifies about
@@ -7,7 +7,7 @@ possible performance regressions.
 
 A typical use-case of otava is as follows:
 
-- A set of performance tests is scheduled repeatedly.
+- A set of performance tests is scheduled repeatedly, such as after each commit is pushed.
 - The resulting metrics of the test runs are stored in a time series database (Graphite)
    or appended to CSV files.
 - Otava is launched by a Jenkins/Cron job (or an operator) to analyze the recorded
@@ -23,10 +23,9 @@ under test or in the environment.
 Unlike in threshold-based performance monitoring systems, there is no need to setup fixed warning
 threshold levels manually for each recorded metric. The level of accepted probability of
 false-positives, as well as the minimal accepted magnitude of changes are tunable. Otava is
-also capable of comparingthe level of performance recorded in two different periods of time – which
-is useful for e.g. validating the performance of the release candidate vs the previous release of your product.
-
-Backward compatibility may be broken any time.
+also capable of comparing the level of performance recorded in two different git histories.
+This can be used for example to validate a feature branch against the main branch, perhaps
+integrated with a pull request.
 
 See the documentation in [docs/README.md](docs/README.md).
 
