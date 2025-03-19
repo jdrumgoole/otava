@@ -40,7 +40,7 @@ repos:
           - --fuzzy-match-generates-todo
       - id: insert-license
         name: Add license for all Markdown files
-        files: \.md$
+        files: docs\/.+\.md$
         args:
           - --comment-style
           - "<!--|| -->"
