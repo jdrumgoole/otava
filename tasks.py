@@ -2,9 +2,16 @@ from invoke import task
 #
 # when invoking tasks remember that the dashes "_" are replaced by hyphens "-" on the command line.
 #
+
+
 @task
 def build_e_divisive(c):
     c.run("poetry run compile-ext")
+
+@task(build_e_divisive)
+def build(c):
+    c.run("poetry build")
+    c.run("poetry run pytest")
 
 @task
 def pytests(c):
