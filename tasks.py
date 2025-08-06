@@ -10,6 +10,8 @@ def build_e_divisive(c):
 
 @task(build_e_divisive)
 def build(c):
+    c.run("poetry lock")
+    c.run('poetry install')
     c.run("poetry build")
     c.run("poetry run pytest")
 
