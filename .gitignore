@@ -31,3 +31,7 @@ dist/
 venv/
 .tox/
 .docker/
+
+#Mac
+.DS_Store
+

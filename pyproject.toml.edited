@@ -58,7 +58,6 @@ setuptools = "^80.9.0"
 scipy = "1.8.1"
 typing-extensions = "4.5.0"
 structlog = "24.2"
-attr = "^0.3.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -81,7 +80,7 @@ filterwarnings = [
 
 [tool.poetry.scripts]
 otava = 'otava.main:main'
-compile-ext = "compile:main"
+compile-ext = "scripts.compile:main"
 
 [tool.ruff]
 line-length = 100
