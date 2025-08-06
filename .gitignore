@@ -31,3 +31,10 @@ dist/
 venv/
 .tox/
 .docker/
+
+#Mac
+.DS_Store
+
+# Binarys
+_e_divisive.cpython-39-darwin.so
+
