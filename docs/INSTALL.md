@@ -19,7 +19,7 @@
 
 # Installation
 
-## Install using pipx
+## Install using pip
 
 Otava requires Python 3.8.  If you don't have python 3.8, use pyenv to install it.
 
