@@ -18,7 +18,7 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 from expandvars import expandvars
 from ruamel.yaml import YAML
@@ -95,13 +95,24 @@ def load_test_groups(config: Dict, tests: Dict[str, TestConfig]) -> Dict[str, Li
 
     return result
 
+def expand_variables(obj: Any) -> Any:
+    """Recursively expand environment variables in nested structures."""
+    if isinstance(obj, dict):
+        return {k: expand_variables(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [expand_variables(item) for item in obj]
+    elif isinstance(obj, str):
+        return os.path.expandvars(obj)  # Expands $VAR and ${VAR}
+    else:
+        return obj
 
 def load_config_from(config_file: Path) -> Config:
     """Loads config from the specified location"""
     try:
-        content = expandvars(config_file.read_text(), nounset=True)
+        content =config_file.read_text()
         yaml = YAML(typ="safe")
         config = yaml.load(content)
+        config = expand_variables(config)
         """
         if Grafana configs not explicitly set in yaml file, default to same as Graphite
         server at port 3000
